@@ -26,8 +26,19 @@ html, body {
   width: 500px;
   background-color: #fefefe;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  border-bottom: 1px solid #cccccc;
+  border: 1px solid #cccccc;
+  border-radius: 25px;
   margin-bottom: 5px;
+}
+
+.rowContainer {
+  width: 65%;
+}
+
+.row2 {
+  display: flex;
+
 }
