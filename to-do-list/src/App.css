@@ -1,0 +1,33 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.main {
+  width: 100%;
+  /* height: 100vh; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.to-do-list {
+  display: flex;
+  width: 400px;
+  height: 100%;
+  padding: 4vw;
+  align-items: center;
+  
+  flex-direction: column;
+}
+
+.card {
+  height: 50px;
+  width: 500px;
+  background-color: #fefefe;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 5px;
+}
