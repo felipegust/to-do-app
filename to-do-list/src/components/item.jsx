@@ -1,25 +1,64 @@
 import React, { Component } from 'react';
 
-export default class Item extends Component {
+function Item(props) {
 
-    render() {
-        return (
-            <div className="card">
-                <input type="checkbox" key={this.props.key}/>
-                <div className="rowContainer">
-
-                <div className="row1">
-                {this.props.texto}
-                </div>
-                <div className="row2">
-                    <span>{"28/07"}</span>
-                     {/* <span>{"Pendente"}</span> */}
-                </div>
-                </div>
-                
-                <button>Apagar</button>
-            </div>
-        )
+    function handleChange(e) {
+        props.onChange(e.target.value);
     }
 
+    function handleKeyPress(e) {
+        props.onKeyPress(e)
+    }
+
+    function handleDelete(e) {
+        props.onDelete(e)
+    }
+
+    return (
+        <div className="card">
+            <input type="checkbox" key={props.key} />
+            <div className="rowContainer">
+
+                <div className="row1">
+                    {props.texto ? props.texto : <input type="text" value={props.value} onChange={handleChange} onKeyPress={handleKeyPress} />}
+                </div>
+                {/* <div className="row2">
+                    <span>{"28/07"}</span>
+                     <span>{"Pendente"}</span>
+                </div> */}
+            </div>
+
+            <button onClick={handleDelete}>Apagar</button>
+        </div>
+    )
+
 }
+
+export default Item
+// export default class Item extends Component {
+
+//     handleChange = (e) => {
+//         this.props.onChange(e.target.value);
+//     }
+
+//     render() {
+//         return (
+//             <div className="card">
+//                 <input type="checkbox" key={this.props.key} />
+//                 <div className="rowContainer">
+
+//                     <div className="row1">
+//                         {this.props.texto ? this.props.texto : <input type="text" value={props.value} onChange={handleChange} />}
+//                     </div>
+//                     {/* <div className="row2">
+//                     <span>{"28/07"}</span>
+//                      <span>{"Pendente"}</span>
+//                 </div> */}
+//                 </div>
+
+//                 <button>Apagar</button>
+//             </div>
+//         )
+//     }
+
+// }

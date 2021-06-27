@@ -6,8 +6,33 @@ import React, { useEffect, useState } from 'react';
 function App() {
 
   const [itens, setItens] = useState([
-    {"_id":1, "texto": "texto1"}, {"_id":1, "texto": "texto1"}, {"_id":1, "texto": "texto1"}
+    { "_id": 1, "texto": "texto1" }, { "_id": 2, "texto": "texto1" }, { "_id": 3, "texto": "texto1" }
   ])
+
+  const [textoEdit, setTextoEdit] = useState("")
+
+  function handleAdd(e) {
+    console.log(e)
+    let id = itens[itens.length - 1]._id + 1
+    setItens([...itens, { "_id": id, "texto": "" }])
+  }
+
+  function handleEdit(value) {
+    setTextoEdit(value)
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      let newItens = [...itens]
+      newItens[newItens.length - 1].texto = textoEdit
+      setItens([...newItens])
+      setTextoEdit("")
+    }
+  }
+
+  function handleDelete(event) {
+    console.log(event)
+  }
 
   // useEffect(() => {
   //   fetch('http://localhost:3000/to-do/list')
@@ -23,11 +48,14 @@ function App() {
       <div className="to-do-list">
         <h1>To Do List</h1>
         {itens.map(item => {
-          return <Item key={item._id} texto={item.texto} />
+          return <Item key={item._id} texto={item.texto} onDelete={handleDelete} onChange={handleEdit} onKeyPress={handleKeyPress} />
         })}
-        <button>Inserir</button>
         <div className="rowContainer">
-          <button>Todos</button> | <button>Concluídos</button> | <button>Pendentes</button>
+
+          <button onClick={(e) => handleAdd(e)}>Inserir</button>
+        </div>
+        <div className="rowContainer">
+          <span>Concluídos</span><span>Pendentes</span>
         </div>
       </div>
     </div>
