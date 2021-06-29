@@ -5,49 +5,29 @@ import React, { useEffect, useState } from "react";
 
 function App() {
 	const [itens, setItens] = useState([
-		{ _id: 0, texto: "texto1", pendente: false },
-		{ _id: 1, texto: "texto1", pendente: true },
-		{ _id: 2, texto: "texto1", pendente: true },
+		{ _id: 0, text: "texto1", active: true },
+		{ _id: 1, text: "texto1", active: true },
+		{ _id: 2, text: "texto1", active: true },
 	]);
 
-	const [textoEdit, setTextoEdit] = useState("");
+	function handleUpdate(item) {
+		const tempItens = [...itens];
+		const idx = itens.findIndex((el) => el._id === item._id);
 
-	function handleAdd(e) {
-		console.log(e);
-		let id = itens[itens.length - 1]._id + 1;
-		setItens([...itens, { _id: id, texto: "", pendente: true}]);
-	}
-
-	function handleEdit(value) {
-		setTextoEdit(value);
-	}
-
-	function handleKeyPress(event) {
-		if (event.key === "Enter") {
-			let newItens = [...itens];
-			newItens[newItens.length - 1].texto = textoEdit;
-			setItens([...newItens]);
-			setTextoEdit("");
+		if (item.delete) {
+			const filteredItems = itens.filter((i) => i._id !== item._id);
+			setItens(filteredItems);
+			return;
 		}
+
+		tempItens[idx] = item;
+		setItens(tempItens);
 	}
 
-	function handleDelete(_id, event) {
-		let newItens = [...itens];
-		newItens.splice(_id, 1);
-		setItens([...newItens]);
+	function handleAdd() {
+		const added = [...itens, { _id: 4, text: "", active: true }];
+		setItens(added);
 	}
-
-  function handleUpdate(_id, event) {
-    let newItens = [...itens]
-    newItens[_id].texto = textoEdit
-    setItens([...newItens]);
-  }
-
-  function handleStatus(_id, event) {
-    let newItens = [...itens]
-    newItens[_id].pendente = !newItens[_id].pendente
-    setItens([...newItens]);
-  }
 
 	// useEffect(() => {
 	//   fetch('http://localhost:3000/to-do/list')
@@ -66,17 +46,14 @@ function App() {
 					return (
 						<Item
 							key={item._id}
-							texto={item.texto}
-              pendente={item.pendente}
-              onStatus={(e) => handleStatus(item._id, e)}
-							onDelete={(e) => handleDelete(item._id, e)}
-							onChange={handleEdit}
-							onKeyPress={handleKeyPress}
+							itens={itens}
+							item={item}
+							handleUpdate={handleUpdate}
 						/>
 					);
 				})}
 				<div className="rowContainer">
-					<button onClick={(e) => handleAdd(e)}>Inserir</button>
+					<button onClick={handleAdd}>Inserir</button>
 				</div>
 				<div className="rowContainer">
 					<span>Concluídos</span>

@@ -1,55 +1,62 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-function Item(props) {
-	function handleChange(e) {
-		props.onChange(e.target.value);
+function Item({ key, item, handleUpdate }) {
+	const [tempText, setTempText] = useState("");
+
+	function handleStatus() {
+		const tempItem = { ...item, active: !item.active };
+		handleUpdate(tempItem);
+	}
+
+	function handleEdit() {
+		const tempItem = { ...item, edit: true };
+		handleUpdate(tempItem);
+	}
+
+	function handleDelete() {
+		const tempItem = { ...item, delete: true };
+		handleUpdate(tempItem);
 	}
 
 	function handleKeyPress(e) {
-		props.onKeyPress(e);
-	}
-
-	function handleDelete(e) {
-		props.onDelete(e);
-	}
-
-	function handleStatus(e) {
-		props.onStatus(e);
+		const tempItem = { _id: item._id, text: tempText, active: true };
+		if (e.charCode === 13) {
+			handleUpdate(tempItem);
+		}
 	}
 
 	return (
 		<div className="card">
 			<input
 				type="checkbox"
-				key={props.key}
-				onClick={handleStatus}
-				checked={!props.pendente}
+				key={key}
+				onClick={() => {
+					handleStatus();
+				}}
+				checked={!item.active}
 			/>
 			<div className="rowContainer">
 				<div className="row1">
-					{props.texto ? (
+					{item.text && !item.edit ? (
 						<span
+							onClick={() => handleEdit()}
 							style={
-								props.pendente
+								item.active
 									? {}
 									: { textDecoration: "line-through" }
 							}
 						>
-							{props.texto}
+							{item.text}
 						</span>
 					) : (
 						<input
 							type="text"
-							value={props.value}
-							onChange={handleChange}
-							onKeyPress={handleKeyPress}
+							value={tempText}
+							onChange={(e) => setTempText(e.target.value)}
+							onKeyPress={(e) => handleKeyPress(e)}
 						/>
 					)}
 				</div>
-				{/* <div className="row2">
-                    <span>{"28/07"}</span>
-                     <span>{"Pendente"}</span>
-                </div> */}
 			</div>
 
 			<button onClick={handleDelete}>Apagar</button>
@@ -58,30 +65,3 @@ function Item(props) {
 }
 
 export default Item;
-// export default class Item extends Component {
-
-//     handleChange = (e) => {
-//         this.props.onChange(e.target.value);
-//     }
-
-//     render() {
-//         return (
-//             <div className="card">
-//                 <input type="checkbox" key={this.props.key} />
-//                 <div className="rowContainer">
-
-//                     <div className="row1">
-//                         {this.props.texto ? this.props.texto : <input type="text" value={props.value} onChange={handleChange} />}
-//                     </div>
-//                     {/* <div className="row2">
-//                     <span>{"28/07"}</span>
-//                      <span>{"Pendente"}</span>
-//                 </div> */}
-//                 </div>
-
-//                 <button>Apagar</button>
-//             </div>
-//         )
-//     }
-
-// }
