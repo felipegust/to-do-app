@@ -40,7 +40,7 @@ const findDocuments = async function (collection) {
 
 const updateDocument = function (collection, query, data) {
     return new Promise((resolve, reject) => {
-        _db.collection(collection).updateOne(query, { $set: { "texto": data } }, function (err, result) {
+        _db.collection(collection).updateOne(query, { $set: data }, function (err, result) {
             if (err) reject(err);
             resolve(result)
         });

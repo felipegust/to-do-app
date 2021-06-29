@@ -19,8 +19,8 @@ function Item({ key, item, handleUpdate }) {
 	}
 
 	function handleKeyPress(e) {
-		const tempItem = { _id: item._id, text: tempText, active: true };
-		if (e.charCode === 13) {
+		const tempItem = { _id: item._id, text: tempText, active: true, edit: false };
+		if (e.charCode === 13 || e.type === "blur") {
 			handleUpdate(tempItem);
 		}
 	}
@@ -36,27 +36,27 @@ function Item({ key, item, handleUpdate }) {
 				checked={!item.active}
 			/>
 			<div className="rowContainer">
-				<div className="row1">
-					{item.text && !item.edit ? (
-						<span
-							onClick={() => handleEdit()}
-							style={
-								item.active
-									? {}
-									: { textDecoration: "line-through" }
-							}
-						>
-							{item.text}
-						</span>
-					) : (
-						<input
-							type="text"
-							value={tempText}
-							onChange={(e) => setTempText(e.target.value)}
-							onKeyPress={(e) => handleKeyPress(e)}
-						/>
-					)}
-				</div>
+				
+				{item.text && !item.edit ? (
+					<span
+						onClick={() => handleEdit()}
+						style={
+							item.active
+								? {}
+								: { textDecoration: "line-through" }
+						}
+					>
+						{item.text}
+					</span>
+				) : (
+					<input
+						type="text"
+						value={tempText}
+						onChange={(e) => setTempText(e.target.value)}
+						onKeyPress={(e) => handleKeyPress(e)}
+						onBlur={(e) => handleKeyPress(e)}
+					/>
+				)}
 			</div>
 
 			<button onClick={handleDelete}>Apagar</button>

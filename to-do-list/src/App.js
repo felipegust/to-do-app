@@ -1,48 +1,56 @@
 import "./App.css";
 import Item from "../src/components/item";
 import React, { useEffect, useState } from "react";
-// import fetch from 'fetch';
+import todoApi from './services/apiHandler';
 
 function App() {
-	const [itens, setItens] = useState([
-		{ _id: 0, text: "texto1", active: true },
-		{ _id: 1, text: "texto1", active: true },
-		{ _id: 2, text: "texto1", active: true },
-	]);
+	const [itens, setItens] = useState([]);
+	const [filter, setFilter] = useState({ filter: false, active: false })
+
+	function getList() {
+		fetch('http://localhost:3000/to-do/list')
+			.then(response => response.json())
+			.then(data => {
+				setItens(data.data)
+			});
+	}
 
 	function handleUpdate(item) {
-		const tempItens = [...itens];
-		const idx = itens.findIndex((el) => el._id === item._id);
-
 		if (item.delete) {
-			const filteredItems = itens.filter((i) => i._id !== item._id);
-			setItens(filteredItems);
+			todoApi('delete', 'delete', item).then(data => {
+				getList()
+			})
 			return;
 		}
 
-		tempItens[idx] = item;
-		setItens(tempItens);
+		todoApi('update', 'put', item).then(data => {
+			getList()
+		})
 	}
 
 	function handleAdd() {
-		const added = [...itens, { _id: 4, text: "", active: true }];
-		setItens(added);
+		todoApi('insert', 'post', { "text": "", "active": "true" })
+			.then(data => {
+				console.log(data)
+				getList()
+			})
 	}
 
-	// useEffect(() => {
-	//   fetch('http://localhost:3000/to-do/list')
-	//     .then(response => response.json())
-	//     .then(data => {
-	//       console.log(data)
-	//       setItens(data.data)
-	//     });
-	// }, [])
+	const itensToShow = filter.filter
+		? itens.filter(item => item.active === filter.active)
+		: itens
+
+	useEffect(() => {
+		getList()
+	}, [])
 
 	return (
+
 		<div className="main">
 			<div className="to-do-list">
 				<h1>To Do List</h1>
-				{itens.map((item) => {
+
+				{itensToShow.map((item) => {
 					return (
 						<Item
 							key={item._id}
@@ -53,11 +61,12 @@ function App() {
 					);
 				})}
 				<div className="rowContainer">
-					<button onClick={handleAdd}>Inserir</button>
+					<button onClick={handleAdd}>Adicionar To Do</button>
 				</div>
 				<div className="rowContainer">
-					<span>Concluídos</span>
-					<span>Pendentes</span>
+					<span style={filter.filter ? {} : { fontWeight: "bold" }} onClick={() => setFilter({ filter: false })}>Todos</span>
+					<span style={(filter.filter && filter.active === true) ? { fontWeight: "bold" } : {}} onClick={() => setFilter({ filter: true, active: true })}>Pendentes</span>
+					<span style={(filter.filter && filter.active === false) ? { fontWeight: "bold" } : {}} onClick={() => setFilter({ filter: true, active: false })}> Concluídos</span>
 				</div>
 			</div>
 		</div>
