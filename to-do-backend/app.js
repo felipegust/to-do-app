@@ -4,8 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var todoRoute = require('./routes/to-do');
 
+var todoRoute = require('./routes/to-do');
 var app = express();
 
 app.use(cors());
@@ -18,3 +18,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/to-do', todoRoute);
 
 module.exports = app;
+ 

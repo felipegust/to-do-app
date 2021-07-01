@@ -5,6 +5,7 @@ const { ObjectId } = require('mongodb')
 
 mongoUtil.connectToServer(function (err) {
   if (err) console.log(err);
+
   router.get('/list', function (req, res, next) {
     mongoUtil.findDocuments('to-do').then(data => {
       res.send({ data })

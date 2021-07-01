@@ -19,11 +19,12 @@ function Item({ key, item, handleUpdate }) {
 	}
 
 	function handleKeyPress(e) {
-		const tempItem = { _id: item._id, text: tempText, active: true, edit: false };
+		const tempItem = { ...item, text: tempText, active: true, edit: false };
 		if (e.charCode === 13 || e.type === "blur") {
 			handleUpdate(tempItem);
 		}
 	}
+
 
 	return (
 		<div className="card">

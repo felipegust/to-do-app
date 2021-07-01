@@ -39,7 +39,7 @@ html, body {
 .rowContainer {
   /* width: 65%; */
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -62,4 +62,8 @@ input[type=text] {
 
 span {
   padding: 10px;
+}
+
+.filter {
+  cursor: pointer;
 }

@@ -61,12 +61,12 @@ function App() {
 					);
 				})}
 				<div className="rowContainer">
-					<button onClick={handleAdd}>Adicionar To Do</button>
+					<span className={"filter"} style={filter.filter ? {} : { fontWeight: "bold" }} onClick={() => setFilter({ filter: false })}>Todos</span>
+					<span className={"filter"} style={(filter.filter && filter.active === true) ? { fontWeight: "bold" } : {}} onClick={() => setFilter({ filter: true, active: true })}>Pendentes</span>
+					<span className={"filter"} style={(filter.filter && filter.active === false) ? { fontWeight: "bold" } : {}} onClick={() => setFilter({ filter: true, active: false })}> Concluídos</span>
 				</div>
 				<div className="rowContainer">
-					<span style={filter.filter ? {} : { fontWeight: "bold" }} onClick={() => setFilter({ filter: false })}>Todos</span>
-					<span style={(filter.filter && filter.active === true) ? { fontWeight: "bold" } : {}} onClick={() => setFilter({ filter: true, active: true })}>Pendentes</span>
-					<span style={(filter.filter && filter.active === false) ? { fontWeight: "bold" } : {}} onClick={() => setFilter({ filter: true, active: false })}> Concluídos</span>
+					<button onClick={handleAdd}>Adicionar To Do</button>
 				</div>
 			</div>
 		</div>

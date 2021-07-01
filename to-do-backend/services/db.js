@@ -1,12 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'to-do-list';
-const client = new MongoClient(url, { useUnifiedTopology: true });
+const url = process.env.DBURL;
+const dbName = process.env.COLLECTION;
 
 var _db;
 
