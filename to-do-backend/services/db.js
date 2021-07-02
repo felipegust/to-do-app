@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
 const url = process.env.DBURL;
-const dbName = process.env.COLLECTION;
+const dbName = process.env.DBNAME;
 
 var _db;
 
